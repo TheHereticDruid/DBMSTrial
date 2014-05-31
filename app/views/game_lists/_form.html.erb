@@ -1,0 +1,45 @@
+<%= form_for(@game_list) do |f| %>
+  <% if @game_list.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@game_list.errors.count, "error") %> prohibited this game_list from being saved:</h2>
+
+      <ul>
+      <% @game_list.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :dev %><br>
+    <%= f.select :dev, options_for_select(@ard) %><br />Developer Not Found? Make A New One <%= link_to "Here", "/developers/new" %>
+  </div>
+  <div class="field">
+    <%= f.label :pub %><br>
+    <%= f.select :pub, options_for_select(@arp) %><br />Publisher Not Found? Make A New One <%= link_to "Here", "/publishers/new" %>
+  </div>
+  <div class="field">
+    <%= f.label :esrb %><br>
+    <%= f.text_field :esrb %>
+  </div>
+  <div class="field">
+    <%= f.label :crit %><br>
+    <%= f.number_field :crit %>
+  </div>
+  <div class="field">
+    <%= f.label :yor %><br>
+    <%= f.date_select :yor %>
+  </div>
+  <div class="field">
+    <%= f.label :franchise %><br>
+    <%= f.text_field :franchise %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

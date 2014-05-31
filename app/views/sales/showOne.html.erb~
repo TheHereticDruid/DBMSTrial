@@ -1,0 +1,73 @@
+<body background="/images/ho.jpg">
+   <div style="margin:20px;">
+   <span style="margin:20px;">
+   <a href="/"> Home </a>
+   </span>
+   <span style="margin:20px;">
+   <a href="/game_lists"> Games </a> 
+  </span>
+  
+  <span style="margin:20px;">
+   <a href="/developers"> Developers </a>
+   </span>
+   
+   <span style="margin:20px;">
+   <a href="/publishers"> Publishers </a>
+  </span>
+  
+   <span style="margin:20px;">
+   <a href="/query/queryMain"> Query  </a> 
+  </span>
+  
+  <span style="margin:20px;">
+   <%= link_to "Sign Out", destroy_user_session_path, :method=>:delete %>
+  </span>
+  
+  
+  </div>
+  
+  
+  <br>
+<% if @sale.present? %>
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Gid:</strong>
+  <%= @sale.gid %>
+</p>
+
+<p>
+  <strong>Price:</strong>
+  <%= @sale.price %>
+</p>
+
+<p>
+  <strong>Pub:</strong>
+  <%= @sale.pub %>
+</p>
+
+<p>
+  <strong>Sold:</strong>
+  <%= @sale.sold %>
+</p>
+
+<p>
+  <strong>Stocked:</strong>
+  <%= @sale.stocked %>
+</p>
+
+<p>
+  <strong>Hardcopy:</strong>
+  <%= @sale.hardcopy %>
+</p>
+
+<%= link_to 'Edit', edit_sale_path(@sale) %> |
+<%= link_to 'Back', sales_path %>
+<% else %>
+No Sales Record Available
+<% if current_user.email=="admin@archives.com" %>
+<%= link_to 'Create A New One Here', "/sales/new?i="+params[:i] %>
+<% end %>
+<% end %>
+
+</body>

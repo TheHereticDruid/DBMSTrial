@@ -1,0 +1,81 @@
+
+<body background="/images/login1.jpg">
+   <div style="margin:20px;">
+   <span style="margin:20px;">
+   <b><a href="/"> Home </a></b>
+   </span>
+   <span style="margin:20px;">
+   <b><a href="/game_lists"> Games </a></b>
+  </span>
+  
+  <span style="margin:20px;">
+   <b><a href="/developers"> Developers </a></b>
+   </span>
+   
+   <span style="margin:20px;">
+   <b><a href="/publishers"> Publishers </a></b>
+  </span>
+  
+   <span style="margin:20px;">
+   <b><a href="/query/queryMain"> Query  </a></b> 
+  </span>
+  
+  <span style="margin:20px;">
+   <b><%= link_to "Sign Out", destroy_user_session_path, :method=>:delete %></b>
+  </span>
+  
+  
+  </div>
+  
+  
+  <br>
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @game_list.name %>
+</p>
+
+<p>
+  <strong>Developer:</strong>
+  <%= @game_list.dev %>
+</p>
+
+<p>
+  <strong>Publisher:</strong>
+  <%= @game_list.pub %>
+</p>
+
+<p>
+  <strong>Esrb Rating:</strong>
+  <%= @game_list.esrb %>
+</p>
+
+<p>
+  <strong>Critical Rating:</strong>
+  <%= @game_list.crit %>
+</p>
+
+<p>
+  <strong>Year Of Release:</strong>
+  <%= @game_list.yor %>
+</p>
+Genres:<br />
+<% @gen.each do |gen| %>
+<%= gen.genre %><br />
+<% end %><br />
+Consoles:<br />
+<% @con.each do |con| %>
+<%= con.console %><br />
+<% end %>
+<% if Sale.where(:gid=>@game_list.id).present? %>
+	<% @srec=Sale.where(:gid=>@game_list.id)[0] %>
+	Visit The Sales Record <%= link_to "Here", "/sales/"+@srec.id.to_s %><br />
+<% else %>
+	There Is No Sales Record For This Game<br /><% if current_user.email=="admin@archives.com" %>Create A New One <%= link_to "Here", "/sales/new?i="+@game_list.id.to_s %><br /><% end %>
+<% end %>
+<% if current_user.email=="admin@archives.com" %>
+<%= link_to 'Edit', edit_game_list_path(@game_list) %> |<% end %>
+<%= link_to 'Back', game_lists_path %>
+
+</body>

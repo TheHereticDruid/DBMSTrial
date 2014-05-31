@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  dev: MyString
+  pub: MyString
+  esrb: MyString
+  crit: 1
+  yor: 2014-04-07
+
+two:
+  name: MyString
+  dev: MyString
+  pub: MyString
+  esrb: MyString
+  crit: 1
+  yor: 2014-04-07

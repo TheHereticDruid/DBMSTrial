@@ -1,0 +1,131 @@
+All Games Released In One Year
+
+	Input Year params[:year]
+	GameList.where(:yor=>params[:year])
+
+All Games Ported Onto Multiple Consoles
+
+	Array.new
+	GameList.all
+	foreach f do
+		if Console.where(:gid=>f.id).size>=2
+			ar[i]<-f
+	Release ar
+
+All Free Games
+
+	Array.new
+	GameList.all
+	foreach f do
+		if Sale.where(:gid=>f.id).price==0.0
+			ar[i]<-f
+	Release ar
+	
+Count Of Free Indie Games
+
+	GameList.all
+	foreach f do
+		if Developer.where(:name=>f.dev).isIndie==t
+			if Sale.where(:gid=>f.id).price==0.0
+				count++
+	Return count
+
+Average Of Price Of Games Of Each Franchise
+
+	Array.new
+	Array.new
+	Array.new
+	GameList.all
+	foreach f do
+		if f.franchise in ar1, ar2++, ar3+price
+		else ar1++, ,_franchise, ar2++, ar3+price
+	ar3/=ar2
+	Release ar3, ar1
+
+Developer Most Times Worked With Any Publisher
+
+	Input Publisher
+	DevPub.where(:publisher=>pub)
+
+Highest Critically Rated In Any Year
+
+	Input Year
+	crit=0
+	Array.new
+	GameList.where(:yor like year%)
+	foreach f do
+		if f.crit>crit
+			crit<-f.crit, ar[0]<-f
+	Return ar[0]
+
+Price Range Of Games In Any Franchise
+
+	Input Franchise
+	GameList.where(:franchise=>fran)
+	min=0
+	max=Sales(:gid=>f.first.id).cost
+	minrec, maxrec
+	foreach f do
+		t=Sales(:gid=>f.id)
+		if t.cost>max 
+			max=t.cost, maxrec=t
+		if t.cost<min
+			min=t.cost, minrec=t
+	return maxrec, minrec
+
+Best Selling Games Which Are Out Of Stock
+
+	GameList.where(Gamelist.id=gid).where(:isStock=>f).orderby(crit).limit(10)
+	return g
+
+Games Of Particular Genre , For Multiple Values Of Genre
+
+	Input params GenreList
+	Array.new
+	Genre.where(:genre=>gr[0])
+	foreach g do
+		f=1;
+		for i loop
+			if !Genre.where(:gid=>g.gid).present?
+				f=0
+		if f=1
+			ar+=GameList.where(id=>g.gid)
+		else f=1
+	release ar
+
+Most Active Publisher In Any Year
+
+	Input Year
+	count=0
+	rec
+	Publisher.all
+	GameList.where(:yor=>input)
+	foreach p do
+		if g.where(:pub=>p.name).size>count
+			count=g.where(:pub=>p.id).size
+			rec=g
+	return rec count
+
+Most Profitable Franchise For Any Publisher
+
+	Input Publisher
+	cost=0
+	max=0, maxrec
+	Publisher.where(:name=>input)
+	foreach Franchise.where(:pid=>p.id) do
+		foreach	GameList.where(:franchise=>f.franchise) do
+			cost+=Sales.where(:gid=>g.id).cost*Sales.where(:gid=>g.id).copiesSold
+		if cost>max
+			max=cost, maxrec=f
+	return max, maxrec
+
+Genre Any Developer Is Most Comfortable With
+How Active Any Developer Has Been Over The Years
+The Demographic Receiving The Most Games In Any Year
+The Demographic Receiving The Most Critically Acclaimed Games In Any Year
+Trend Of Number Of Active Indie Developers Over The Years
+Trend Of Number Of Games In Soft Copy By The Year
+Trend Of Number Of Games Over The Years
+Highest Grossing Franchise Of Any Publisher
+Longest Running Franchise Of Any Publisher
+Most Copies Sold For A Franchise Of Any Publisher

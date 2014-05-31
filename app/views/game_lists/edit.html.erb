@@ -1,0 +1,144 @@
+
+<body background="/images/as.jpg">
+   <div style="margin:20px;">
+   <span style="margin:20px;">
+   <b><a href="/"> Home </a></b>
+   </span>
+   <span style="margin:20px;">
+  <b> <a href="/game_lists"> Games </a></b> 
+  </span>
+  
+  <span style="margin:20px;">
+   <b><a href="/developers"> Developers </a></b>
+   </span>
+   
+   <span style="margin:20px;">
+   <b><a href="/publishers"> Publishers </a></b>
+  </span>
+  
+   <span style="margin:20px;">
+  <b> <a href="/query/queryMain"> Query  </a> </b>
+  </span>
+  
+  <span style="margin:20px;">
+   <b><%= link_to "Sign Out", destroy_user_session_path, :method=>:delete %></b>
+  </span>
+  
+  
+  </div>
+  
+  
+  <br>
+<script>
+var i;
+var dev;
+var pub;
+var frn;
+var w;
+window.onload=function()
+{
+	document.getElementsByName("commit")[0].style.visibility="hidden";
+	frn=document.getElementById("game_list_franchise").value;
+}
+function encompass()
+{
+	franDown();
+	devPubDown();
+	document.getElementsByName("commit")[0].click();
+}
+function franDown()
+{
+	if(frn!=document.getElementById("game_list_franchise").value||pub!=document.getElementById("game_list_pub").value)
+	{
+		var w;
+		if(window.XMLHttpRequest){w=new XMLHttpRequest();}
+		else{w=new ActiveXObject("Microsoft.XMLHTTP");}
+		w.open("GET","/game_lists/downFranchise?f="+frn+"&p="+pub,true);
+		w.send(null);
+		w.onreadystatechange=function(){return;}
+	}
+}
+function devPubDown()
+{
+	if((dev!=document.getElementById("game_list_dev").value)||(pub!=document.getElementById("game_list_pub").value))
+	{
+		var w;
+		if(window.XMLHttpRequest){w=new XMLHttpRequest();}
+		else{w=new ActiveXObject("Microsoft.XMLHTTP");}
+		w.open("GET","/game_lists/downDevPub?d="+dev+"&p="+pub,true);
+		w.send(null);
+		w.onreadystatechange=function(){return;}
+	}
+}
+<% if current_user.email=="admin@archives.com" %>
+</script><h1>Editing Game</h1>
+
+<%= form_for(@game_list) do |f| %>
+  <% if @game_list.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@game_list.errors.count, "error") %> prohibited this game_list from being saved:</h2>
+
+      <ul>
+      <% @game_list.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name, :required => :true %>
+  </div>
+  <div class="field">
+    <%= f.label :dev %><br>
+    <%= f.select :dev, options_for_select(@ard), :id => "dev" %><br />Developer Not Found? Make A New One <%= link_to "Here", "/developers/new" %>
+  </div>
+  <div class="field">
+    <%= f.label :pub %><br>
+    <%= f.select :pub, options_for_select(@arp), :id => "pub" %><br />Publisher Not Found? Make A New One <%= link_to "Here", "/publishers/new" %>
+  </div>
+  <div class="field">
+    <%= f.label :esrb %><br>
+    <%= f.text_field :esrb, :required => :true %>
+  </div>
+  <div class="field">
+    <%= f.label :crit %><br>
+    <%= f.number_field :crit, :required => :true %>
+  </div>
+  <div class="field">
+    <%= f.label :yor %><br>
+    <%= f.date_select :yor, :required => :true %>
+  </div>
+  <div class="field">
+    <%= f.label :franchise %><br>
+    <%= f.text_field :franchise %>
+  </div>
+  <% i=1 %>
+  <div id="emptyG"></div>
+  <% @arg.each do |arg| %>
+  <div id="g<%= i %>">
+  	Genre <%= i %>: <%= arg %>
+  </div>
+  <% i=i+1 %>
+  <% end %>
+  <% i=1 %>
+  <div id="emptyC"></div>
+  <% @arc.each do |arc| %>
+  <div id="c<%= i %>">
+  	Console <%= i %>: <%= arc %>
+  </div>
+  <% i=i+1 %>
+  <% end %>
+  <div class="actions">
+  <input type="button" value="Submit" onclick="encompass()" />
+    <%= f.submit %>
+  </div>
+<% end %>
+
+<%= link_to 'Show', @game_list %> |
+<%= link_to 'Back', game_lists_path %>
+<% else %>
+You Are Not Authorised To Be Here
+<% end %>
+</body>

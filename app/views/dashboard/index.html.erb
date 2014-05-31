@@ -1,0 +1,35 @@
+ 
+ <body background="/images/sonic.jpg">
+<h2>  Welcome To Game Archives, <%= current_user.email.split("@")[0] %></h2>
+   <div style="margin:20px;">
+
+   <span style="margin:20px;">
+  <b><a href="/game_lists"> Games </a></b>
+  </span>
+  
+  <span style="margin:20px;">
+  <b> <a href="/developers"> Developers </a></b>
+   </span>
+     &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+     <span style="margin:20px;">
+  <b> <%= link_to "Sign Out", destroy_user_session_path, :method=>:delete %></b>
+  </span>
+  
+   </div>
+   <div style="margin:20px;">
+   <span style="margin:20px;">
+  <b> <a href="/publishers"> Publishers </a></b>
+  </span>
+  
+   <span style="margin:20px;">
+   <b><a href="/query/queryMain"> Query  </a></b> 
+  </span>
+  
+
+  
+  </div>
+  
+  
+  <br>
+  
+  </body>

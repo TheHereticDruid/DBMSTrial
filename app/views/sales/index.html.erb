@@ -1,0 +1,70 @@
+<body background="/images/jo.jpg">
+   <div style="margin:20px;">
+   <span style="margin:20px;">
+  <b> <a href="/"> Home </a></b>
+   </span>
+   <span style="margin:20px;">
+   <b><a href="/game_lists"> Games </a></b>
+  </span>
+  
+  <span style="margin:20px;">
+   <b><a href="/developers"> Developers </a></b>
+   </span>
+   
+   <span style="margin:20px;">
+   <b><a href="/publishers"> Publishers </a></b>
+  </span>
+  
+   <span style="margin:20px;">
+   <b><a href="/query/queryMain"> Query  </a></b> 
+  </span>
+  
+  <span style="margin:20px;">
+  <b> <%= link_to "Sign Out", destroy_user_session_path, :method=>:delete %></b>
+  </span>
+  
+  
+  </div>
+  
+  
+  <br>
+
+<h1>Listing sales</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Gid</th>
+      <th>Price</th>
+      <th>Pub</th>
+      <th>Sold</th>
+      <th>Stocked</th>
+      <th>Hardcopy</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @sales.each do |sale| %>
+      <tr>
+        <td><%= sale.gid %></td>
+        <td><%= sale.price %></td>
+        <td><%= sale.pub %></td>
+        <td><%= sale.sold %></td>
+        <td><%= sale.stocked %></td>
+        <td><%= sale.hardcopy %></td>
+        <td><%= link_to 'Show', sale %></td>
+        <% if current_user.email=="admin@archives.com" %><td><%= link_to 'Edit', edit_sale_path(sale) %></td>
+        <td><%= link_to 'Destroy', sale, method: :delete, data: { confirm: 'Are you sure?' } %></td><% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+<% if current_user.email=="admin@archives.com" %>
+<%= link_to 'New Sale', new_sale_path %>
+<% end %>
+</body>

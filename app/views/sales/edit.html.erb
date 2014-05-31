@@ -1,0 +1,76 @@
+<body background="/images/fer.jpg">
+   <div style="margin:20px;">
+   <span style="margin:20px;">
+ <b>  <a href="/"> Home </a></b>
+   </span>
+   <span style="margin:20px;">
+   <b><a href="/game_lists"> Games </a></b>
+  </span>
+  
+  <span style="margin:20px;">
+   <b><a href="/developers"> Developers </a></b>
+   </span>
+   
+   <span style="margin:20px;">
+   <b><a href="/publishers"> Publishers </a></b>
+  </span>
+  
+   <span style="margin:20px;">
+   <b><a href="/query/queryMain"> Query  </a></b> 
+  </span>
+  
+  <span style="margin:20px;">
+<b>   <%= link_to "Sign Out", destroy_user_session_path, :method=>:delete %></b>
+  </span>
+  
+  
+  </div>
+  
+  
+  <br>
+  <% if current_user.email=="admin@archives.com" %>
+  <h1>Editing sale</h1>
+
+<%= form_for(@sale) do |f| %>
+  <% if @sale.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@sale.errors.count, "error") %> prohibited this sale from being saved:</h2>
+
+      <ul>
+      <% @sale.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="field">
+    <%= f.label :price %><br>
+    <%= f.number_field :price, :required => :true %>
+  </div>
+  <div class="field">
+    <%= f.label :pub %><br>
+    <%= f.text_field :pub, :required => :true %>
+  </div>
+  <div class="field">
+    <%= f.label :sold %><br>
+    <%= f.number_field :sold %>
+  </div>
+  <div class="field">
+    <%= f.label :stocked %><br>
+    <%= f.check_box :stocked %>
+  </div>
+  <div class="field">
+    <%= f.label :hardcopy %><br>
+    <%= f.check_box :hardcopy %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+
+<%= link_to 'Show', @sale %> |
+<%= link_to 'Back', sales_path %>
+<% else %>
+You Are Not Authorised To Be Here
+<% end %>
+</body>

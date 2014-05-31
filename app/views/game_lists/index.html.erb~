@@ -1,0 +1,72 @@
+
+<body background="/images/login1.jpg">
+   <div style="margin:20px;">
+   <span style="margin:20px;">
+   <a href="/"> Home </a>
+   </span>
+   <span style="margin:20px;">
+  <a href="/game_lists"> Games </a>
+  </span>
+  
+  <span style="margin:20px;">
+   <a href="/developers"> Developers </a>
+   </span>
+   
+   <span style="margin:20px;">
+   <a href="/publishers"> Publishers </a>
+  </span>
+  
+   <span style="margin:20px;">
+   <a href="/query/queryMain"> Query  </a> 
+  </span>
+  
+  <span style="margin:20px;">
+   <%= link_to "Sign Out", destroy_user_session_path, :method=>:delete %>
+  </span>
+  
+  
+  </div>
+  
+  
+  <br>
+<h1>Listing Games</h1>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspOrder By:<a href="/game_lists?o=id">ID</a>|<a href="/game_lists?o=yor">Year Of Release</a>|<a href="/game_lists?o=esrb">Rating</a>|<a href="/game_lists?o=crit">Critic's Rating</a>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Dev</th>
+      <th>Pub</th>
+      <th>Esrb</th>
+      <th>Crit</th>
+      <th>Yor</th>
+      <th>Franchise</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @game_lists.each do |game_list| %>
+      <tr>
+        <td><%= game_list.name %></td>
+        <td><%= game_list.dev %></td>
+        <td><%= game_list.pub %></td>
+        <td><%= link_to game_list.esrb, "/game_lists/eindex?e="+game_list.esrb %></td>
+        <td><%= game_list.crit %></td>
+        <td><%= link_to game_list.yor, "/game_lists/yindex?y="+game_list.yor.to_s %></td>
+        <td><%= game_list.franchise %></td>
+        <td><%= link_to 'Show', game_list %></td>
+        <% if current_user.email=="admin@archives.com" %><td><%= link_to 'Edit', edit_game_list_path(game_list) %></td>
+        <td><%= link_to 'Destroy', game_list, method: :delete, data: { confirm: 'Are you sure?' } %></td><% end %>
+        <td><%= link_to 'See Sales Here', '/sales/showOne?i='+game_list.id.to_s %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+<% if current_user.email=="admin@archives.com" %>
+<%= link_to 'New Game list', new_game_list_path %>
+<% end %>
+</body>

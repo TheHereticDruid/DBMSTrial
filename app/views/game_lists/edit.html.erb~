@@ -1,0 +1,311 @@
+
+<body background="/images/as.jpg">
+   <div style="margin:20px;">
+   <span style="margin:20px;">
+   <b><a href="/"> Home </a></b>
+   </span>
+   <span style="margin:20px;">
+  <b> <a href="/game_lists"> Games </a></b> 
+  </span>
+  
+  <span style="margin:20px;">
+   <b><a href="/developers"> Developers </a></b>
+   </span>
+   
+   <span style="margin:20px;">
+   <b><a href="/publishers"> Publishers </a></b>
+  </span>
+  
+   <span style="margin:20px;">
+  <b> <a href="/query/queryMain"> Query  </a> </b>
+  </span>
+  
+  <span style="margin:20px;">
+   <b><%= link_to "Sign Out", destroy_user_session_path, :method=>:delete %></b>
+  </span>
+  
+  
+  </div>
+  
+  
+  <br>
+<script>
+var gcount=0;
+var ccount=0;
+var dev;
+var pub;
+var frn;
+var w;
+var gen=new Array();
+var ngn=new Array();
+var con=new Array();
+var ncn=new Array();
+window.onload=function()
+{
+	document.getElementsByName("commit")[0].style.visibility="hidden";
+	dev=document.getElementById("game_list_dev").value;
+	pub=document.getElementById("game_list_pub").value;
+	frn=document.getElementById("game_list_franchise").value;
+	for(var j=1;j<=gcount;j++)
+	{
+		if((document.getElementById("tg"+j).value!="")&&(document.getElementById("tg"+j).value!=null))
+			gen.push(document.getElementById("tg"+j).value);
+	}
+	for(var j=1;j<=ccount;j++)
+	{
+		if((document.getElementById("tc"+j).value!="")&&(document.getElementById("tc"+j).value!=null))
+			con.push(document.getElementById("tc"+j).value);
+	}
+}
+function encompass()
+{
+	genreWork();
+	consoleWork();
+	franDown();
+	devPubDown();
+	document.getElementsByName("commit")[0].click();
+}
+function gAdd()
+{
+	if(gcount==0)
+	{
+		x=document.getElementById("emptyG");
+		y=document.createElement("div");
+		gcount+=1;
+		y.setAttribute('id','g'+gcount);
+		y.innerHTML='Genre '+gcount+':<input type="text" id="tg'+gcount+'" '+ '/'+'>';
+		x.appendChild(y);
+	}
+	else x=document.getElementById("g"+gcount);
+	if(document.getElementById("tg"+gcount).value!=null&&document.getElementById("tg"+gcount).value!="")
+	{
+		y=document.createElement("div");
+		gcount+=1;
+		y.setAttribute('id','g'+gcount);
+		y.innerHTML='Genre '+gcount+':<input type="text" id="tg'+gcount+'" '+ '/'+'>';
+		x.appendChild(y);
+	}
+}
+function cAdd()
+{
+	if(ccount==0)
+	{
+		x=document.getElementById("emptyC");
+		y=document.createElement("div");
+		ccount+=1;
+		y.setAttribute('id','c'+ccount);
+		y.innerHTML='Console '+ccount+':<input type="text" id="tc'+ccount+'" '+ '/'+'>';
+		x.appendChild(y);
+	}
+	else x=document.getElementById("c"+ccount);
+	if(document.getElementById("tc"+ccount).value!=null&&document.getElementById("tc"+ccount).value!="")
+	{
+		y=document.createElement("div");
+		ccount+=1;
+		y.setAttribute('id','c'+ccount);
+		y.innerHTML='Console '+ccount+':<input type="text" id="tc'+ccount+'" '+ '/'+'>';
+		x.appendChild(y);
+	}
+}
+function genreWork()
+{
+	var delG=new Array();
+	var addG=new Array();
+	for(var j=1;j<=gcount;j++)
+	{
+		if((document.getElementById("tg"+j).value!="")&&(document.getElementById("tg"+j).value!=null))
+		{
+			ngn.push(document.getElementById("tg"+j).value);
+		}
+	}
+	//for(var j=0;j<gen.length;j++)
+	//{
+	//	if(ngn.indexOf(gen[j])<=-1)delG.push(gen[j]);
+	//}
+	for(var j=0;j<ngn.length;j++)
+	{
+		if(gen.indexOf(ngn[j])<=-1)addG.push(ngn[j]);
+	}
+	if(addG.length>=1)
+	{
+		var adds="";
+		for(var j=0;j<addG.length;j++)
+		{
+			adds+=addG[j]+",";
+		}
+		adds=adds.substring(0,adds.length-1);
+		alert(adds);
+		if(window.XMLHttpRequest){w=new XMLHttpRequest();}
+		else{w=new ActiveXObject("Microsoft.XMLHTTP");}
+		w.open("GET","/game_lists/addGenres?ar="+adds+"&i=<%= params[:id] %>" ,true);
+		w.send(null);
+		w.onreadystatechange=function(){return;}
+	}
+	//if(delG.length>=1)
+	//{
+	//	var dels="";
+	//	for(var j=0;j<delG.length;j++)
+	//	{
+	//		dels+=delG[j]+",";
+	//	}
+	//	dels=dels.substring(0,dels.length-1);
+	//	alert(dels);
+	//	if(window.XMLHttpRequest){w=new XMLHttpRequest();}
+	//	else{w=new ActiveXObject("Microsoft.XMLHTTP");}
+	//	w.open("GET","/game_lists/remGenres?ar="+dels+"&i=<%= params[:id] %>" ,true);
+	//	w.send(null);
+	//}
+}
+function consoleWork()
+{
+	var del=new Array();
+	var add=new Array();
+	for(var j=1;j<=ccount;j++)
+	{
+		if((document.getElementById("tc"+j).value!="")&&(document.getElementById("tc"+j).value!=null))
+		{
+			ncn.push(document.getElementById("tc"+j).value);
+		}
+	}
+	//for(var j=0;j<con.length;j++)
+	//{
+	//	if(ncn.indexOf(con[j])<=-1)del.push(con[j]);
+	//}
+	for(var j=0;j<ncn.length;j++)
+	{
+		if(con.indexOf(ncn[j])<=-1)add.push(ncn[j]);
+	}
+	if(add.length>=1)
+	{
+		var adds="";
+		for(var j=0;j<add.length;j++)
+		{
+			adds+=add[j]+",";
+		}
+		adds=adds.substring(0,adds.length-1);
+		alert(adds);
+		if(window.XMLHttpRequest){w=new XMLHttpRequest();}
+		else{w=new ActiveXObject("Microsoft.XMLHTTP");}
+		w.open("GET","/game_lists/addConsoles?ar="+adds+"&i=<%= params[:id] %>" ,true);
+		w.send(null);
+		w.onreadystatechange=function(){return;}
+	}
+	//if(del.length>=1)
+	//{
+	//	var dels="";
+	//	for(var j=0;j<del.length;j++)
+	//	{
+	//		dels+=del[j]+",";
+	//	}
+	//	dels=dels.substring(0,dels.length-1);
+	//	alert(dels);
+	//	if(window.XMLHttpRequest){w=new XMLHttpRequest();}
+	//	else{w=new ActiveXObject("Microsoft.XMLHTTP");}
+	//	w.open("GET","/game_lists/remConsoles?ar="+dels+"&i=<%= params[:id] %>" ,true);
+	//	w.send(null);
+	//}
+}
+function franDown()
+{
+	if(frn!=document.getElementById("game_list_franchise").value||pub!=document.getElementById("game_list_pub").value)
+	{
+		var w;
+		if(window.XMLHttpRequest){w=new XMLHttpRequest();}
+		else{w=new ActiveXObject("Microsoft.XMLHTTP");}
+		w.open("GET","/game_lists/downFranchise?f="+frn+"&p="+pub,true);
+		w.send(null);
+		w.onreadystatechange=function(){return;}
+	}
+}
+function devPubDown()
+{
+	if((dev!=document.getElementById("game_list_dev").value)||(pub!=document.getElementById("game_list_pub").value))
+	{
+		var w;
+		if(window.XMLHttpRequest){w=new XMLHttpRequest();}
+		else{w=new ActiveXObject("Microsoft.XMLHTTP");}
+		w.open("GET","/game_lists/downDevPub?d="+dev+"&p="+pub,true);
+		w.send(null);
+		w.onreadystatechange=function(){return;}
+	}
+}
+<% if current_user.email=="admin@archives.com" %>
+</script><h1>Editing Game</h1>
+
+<%= form_for(@game_list) do |f| %>
+  <% if @game_list.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@game_list.errors.count, "error") %> prohibited this game_list from being saved:</h2>
+
+      <ul>
+      <% @game_list.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name, :required => :true %>
+  </div>
+  <div class="field">
+    <%= f.label :dev %><br>
+    <%= f.select :dev, options_for_select(@ard), :id => "dev" %><br />Developer Not Found? Make A New One <%= link_to "Here", "/developers/new" %>
+  </div>
+  <div class="field">
+    <%= f.label :pub %><br>
+    <%= f.select :pub, options_for_select(@arp), :id => "pub" %><br />Publisher Not Found? Make A New One <%= link_to "Here", "/publishers/new" %>
+  </div>
+  <div class="field">
+    <%= f.label :esrb %><br>
+    <%= f.text_field :esrb, :required => :true %>
+  </div>
+  <div class="field">
+    <%= f.label :crit %><br>
+    <%= f.number_field :crit, :required => :true %>
+  </div>
+  <div class="field">
+    <%= f.label :yor %><br>
+    <%= f.date_select :yor, :required => :true %>
+  </div>
+  <div class="field">
+    <%= f.label :franchise %><br>
+    <%= f.text_field :franchise %>
+  </div>
+  <% i=1 %>
+  <div id="emptyG"></div>
+  <% @arg.each do |arg| %>
+  <div id="g<%= i %>">
+  	Genre <%= i %>:<input type="text" value="<%= arg %>" id="tg<%= i %>" />
+  </div>
+  <% i=i+1 %>
+  <% end %>
+  <script>
+  	gcount=<%= i %>-1;
+  </script>
+  <input type="button" onclick="gAdd();" value="Add Another Genre" />
+  <% i=1 %>
+  <div id="emptyC"></div>
+  <% @arc.each do |arc| %>
+  <div id="c<%= i %>">
+  	Console <%= i %>:<input type="text" value="<%= arc %>" id="tc<%= i %>" />
+  </div>
+  <% i=i+1 %>
+  <% end %>
+  <script>
+  	ccount=<%= i %>-1;
+  </script>
+  <input type="button" onclick="cAdd();" value="Add Another Console" />
+  <div class="actions">
+  <input type="button" value="Submit" onclick="encompass()" />
+    <%= f.submit %>
+  </div>
+<% end %>
+
+<%= link_to 'Show', @game_list %> |
+<%= link_to 'Back', game_lists_path %>
+<% else %>
+You Are Not Authorised To Be Here
+<% end %>
+</body>

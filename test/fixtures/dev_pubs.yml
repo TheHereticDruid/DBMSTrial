@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  dev: MyString
+  pub: MyString
+  collab: 1
+
+two:
+  dev: MyString
+  pub: MyString
+  collab: 1

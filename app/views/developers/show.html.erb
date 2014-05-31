@@ -1,0 +1,47 @@
+
+<body background="/images/jo.jpg">
+   <div style="margin:20px;">
+   <span style="margin:20px;">
+  <b> <a href="/"> Home </a></b>
+   </span>
+   <span style="margin:20px;">
+ <b> <a href="/game_lists"> Games </a></b>
+  </span>
+  
+  <span style="margin:20px;">
+   <b><a href="/developers"> Developers </a></b>
+   </span>
+   
+   <span style="margin:20px;">
+  <b> <a href="/publishers"> Publishers </a></b>
+  </span>
+  
+   <span style="margin:20px;">
+   <b><a href="/query/queryMain"> Query  </a> </b>
+  </span>
+  
+  <span style="margin:20px;">
+ <b>  <%= link_to "Sign Out", destroy_user_session_path, :method=>:delete %></b>
+  </span>
+  
+  
+  </div>
+  
+  
+  <br>
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @developer.name %>
+</p>
+
+<p>
+  <strong>Isindie:</strong>
+  <%= @developer.isIndie %>
+</p>
+<% if current_user.email=="admin@archives.com" %>
+<%= link_to 'Edit', edit_developer_path(@developer) %> |<% end %>
+<%= link_to 'Back', developers_path %>
+
+</body>

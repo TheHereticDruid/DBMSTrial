@@ -1,0 +1,40 @@
+<body background="/images/login1.jpg">
+   <div style="margin:20px;">
+   <span style="margin:20px;">
+   <a href="/"> Home </a>
+   </span>
+   <span style="margin:20px;">
+   <a href="/game_lists"> Games </a>
+  </span>
+  
+  <span style="margin:20px;">
+   <a href="/developers"> Developers </a>
+   </span>
+   
+   <span style="margin:20px;">
+   <a href="/publishers"> Publishers </a>
+  </span>
+  
+   <span style="margin:20px;">
+   <a href="/query/queryMain"> Query  </a> 
+  </span>
+  
+  <span style="margin:20px;">
+   <%= link_to "Sign Out", destroy_user_session_path, :method=>:delete %>
+  </span>
+  
+  
+  </div>
+  
+  
+  <br>
+  <% if current_user.email=="admin@archives.com" %>
+<h1>New publisher</h1>
+
+<%= render 'form' %>
+
+<%= link_to 'Back', publishers_path %>
+<% else %>
+You Are Not Authorised To Be Here
+<% end %>
+</body>

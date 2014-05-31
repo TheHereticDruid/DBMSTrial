@@ -1,0 +1,172 @@
+   <div style="margin:20px;">
+   <span style="margin:20px;">
+   <a href="/"> Home </a>
+   </span>
+   <span style="margin:20px;">
+ <a href="/game_lists"> Games </a> 
+  </span>
+  
+  <span style="margin:20px;">
+   <a href="/developers"> Developers </a>
+   </span>
+   
+   <span style="margin:20px;">
+   <a href="/publishers"> Publishers </a>
+  </span>
+  
+   <span style="margin:20px;">
+   <a href="/query/queryMain"> Query  </a> 
+  </span>
+  
+  <span style="margin:20px;">
+   <%= link_to "Sign Out", destroy_user_session_path, :method=>:delete %>
+  </span>
+  
+  
+  </div>
+  
+  
+  <br>
+<script>
+var gcount=1;
+var ccount=1;
+var x;
+var y;
+var w;
+window.onload=function()
+{
+	document.getElementsByName("commit")[0].style.visibility='hidden';
+}
+function checkAll()
+{
+	if(gcount>1)gSend();
+	else if(ccount>1)cSend();
+	else document.getElementsByName("commit")[0].click();
+}
+function gAdd()
+{
+	x=document.getElementById("g"+gcount);
+	if(document.getElementById("tg"+gcount).value!=null&&document.getElementById("tg"+gcount).value!="")
+	{
+		y=document.createElement("div");
+		gcount+=1;
+		y.setAttribute('id','g'+gcount);
+		y.innerHTML='Genre '+gcount+':<input type="text" id="tg'+gcount+'" '+ '/'+'>';
+		x.appendChild(y);
+	}
+}
+function cAdd()
+{
+	x=document.getElementById("c"+ccount);
+	if(document.getElementById("tc"+ccount).value!=null&&document.getElementById("tc"+ccount).value!="")
+	{
+		y=document.createElement("div");
+		ccount+=1;
+		y.setAttribute('id','c'+ccount);
+		y.innerHTML='Console '+ccount+':<input type="text" id="tc'+ccount+'" '+ '/'+'>';
+		x.appendChild(y);
+	}
+}
+function gSend()
+{
+	var ar="";
+	for(var i=1;i<=gcount;i++)
+	{
+		ar+=document.getElementById("tg"+i).value+",";
+		if(ar.charAt(ar.length-2)==',')ar=ar.substring(0,ar.length-1);
+	}
+	ar=ar.substring(0,ar.length-1);
+	if(ar!="")
+	if(window.XMLHttpRequest){w=new XMLHttpRequest();}
+	else{w=new ActiveXObject("Microsoft.XMLHTTP");}
+	w.open("GET","/game_lists/addGenres?ar="+ar,true);
+	w.send(null);
+	w.onreadystatechange=function()
+	{
+		if(ccount>1)cSend();
+		else document.getElementsByName("commit")[0].click();
+	}
+	return;
+}
+function cSend()
+{
+	var ar="";
+	for(var i=1;i<=ccount;i++)
+	{
+		ar+=document.getElementById("tc"+i).value+",";
+		if(ar.charAt(ar.length-2)==',')ar=ar.substring(0,ar.length-1);
+	}
+	ar=ar.substring(0,ar.length-1);
+	if(ar!="")
+	if(window.XMLHttpRequest){w=new XMLHttpRequest();}
+	else{w=new ActiveXObject("Microsoft.XMLHTTP");}
+	w.open("GET","/game_lists/addConsoles?ar="+ar,true);
+	w.send(null);
+	w.onreadystatechange=function()
+	{
+		document.getElementsByName("commit")[0].click();
+	}
+	return;
+}
+</script>
+<% if current_user.email=="admin@archives.com" %>
+<h1>New Game</h1>
+
+<%= form_for(@game_list) do |f| %>
+  <% if @game_list.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@game_list.errors.count, "error") %> prohibited this game_list from being saved:</h2>
+
+      <ul>
+      <% @game_list.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name , :required => :true %>
+  </div>
+  <div class="field">
+    <%= f.label :dev %><br>
+    <%= f.select :dev, options_for_select(@ard) %><br />Developer Not Found? Make A New One <%= link_to "Here", "/developers/new" %>
+  </div>
+  <div class="field">
+    <%= f.label :pub %><br>
+    <%= f.select :pub, options_for_select(@arp) %><br />Publisher Not Found? Make A New One <%= link_to "Here", "/publishers/new" %>
+  </div>
+  <div class="field">
+    <%= f.label :esrb %><br>
+    <%= f.text_field :esrb, :required => :true %>
+  </div>
+  <div class="field">
+    <%= f.label :crit %><br>
+    <%= f.number_field :crit, :required => :true %>
+  </div>
+  <div class="field">
+    <%= f.label :yor %><br>
+    <%= f.date_select :yor, :required => :true %>
+  </div>
+  <div class="field">
+    <%= f.label :franchise %><br>
+    <%= f.text_field :franchise %>
+  </div>
+  <div id="g1">
+  	Genre 1:<input type="text" id="tg1" /><br />
+  </div>
+  <input type="button" onclick="gAdd();" value="Add Another Genre" />
+  <div id="c1">
+  	Console 1:<input type="text" id="tc1" /><br />
+  </div>
+  <input type="button" onclick="cAdd();" value="Add Another Console" />
+  <div class="actions">
+  <input type="button" id="check" onclick="checkAll();" value="Submit" />
+    <%= f.submit %>
+  </div>
+<% end %>
+<%= link_to 'Back', game_lists_path %>
+<% else %>
+You Are Not Authorised To Be Here
+<% end %>

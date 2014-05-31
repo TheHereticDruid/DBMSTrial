@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  gid: 1
+  price: 1
+  pub: MyString
+  sold: 1
+  stocked: false
+  hardcopy: false
+
+two:
+  gid: 1
+  price: 1
+  pub: MyString
+  sold: 1
+  stocked: false
+  hardcopy: false

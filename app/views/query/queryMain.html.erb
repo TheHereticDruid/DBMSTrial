@@ -1,0 +1,157 @@
+
+<body background="/images/ho.jpg">
+   <div style="margin:20px;">
+   <span style="margin:20px;">
+   <b><a href="/"> Home </a></b>
+   </span>
+   <span style="margin:20px;">
+  <b> <a href="/game_lists"> Games </a></b> 
+  </span>
+  
+  <span style="margin:20px;">
+ <b>  <a href="/developers"> Developers </a></b>
+   </span>
+   
+   <span style="margin:20px;">
+  <b> <a href="/publishers"> Publishers </a></b>
+  </span>
+  
+   <span style="margin:20px;">
+ <b>  <a href="/query/queryMain"> Query  </a></b> 
+  </span>
+  
+  <span style="margin:20px;">
+   <b><%= link_to "Sign Out", destroy_user_session_path, :method=>:delete %></b>
+  </span>
+  
+  
+  </div>
+  
+  
+  <br>
+<script>
+var w;
+var x;
+var i;
+var sql="select * from ";
+var sel="select ";
+var where=" where id>0 ";
+var ar=new Array();
+ar[1]="game_lists";
+ar[2]="developers";
+ar[3]="publishers";
+ar[4]="sales";
+var count=0;
+if(window.XMLHttpRequest){w=new XMLHttpRequest();}
+else{w=new ActiveXObject("Microsoft.XMLHTTP");}
+function fun1()
+{
+	var text="Where:<br "+"/"+">";
+	w.open("GET","/query/"+document.getElementById("start").value,true);
+	w.send(null);
+	w.onreadystatechange=function()
+  	{
+  		if (w.readyState==4 && w.status==200)
+    		{
+    			x=w.responseText;
+    			i=x.split("$");
+    			var divi=document.createElement('div');
+    			divi.id="D"+i[1];
+    			var k;
+    			var j=2;
+    			while(i[j]!="end")
+    			{
+    				k=i[j].split("*");
+    				text=text+k[0]+':';
+    				switch(k[1].charAt(0))
+    				{
+    					case 's':text=text+'Like <input type="text" class="'+i[1]+'G" id="'+k[1]+'.'+k[2]+'" '+'/'+'><br '+'/'+'>';
+    						break;
+    					case 'i':text=text+'Between <input type="number" class="'+i[1]+'G" id="'+k[1]+'.'+k[2]+'.1" '+'/'+'> And <input type="number" class="'+i[1]+'G" id="'+k[1]+'.'+k[2]+'.2" '+'/'+'><br '+'/'+'>';
+    						break;
+    					case 'd':text=text+'<input type="date" class="'+i[1]+'G" id="'+k[1]+'.'+k[2]+'" '+'/'+'><br '+'/'+'>';
+    						break;
+    					case 'b':text=text+'True <input type="radio" class="'+i[1]+'G" id="'+k[1]+'.'+k[2]+'" name="'+k[1]+'.'+k[2]+'" value="true" '+'/'+'> False <input type="radio" value="false" class="'+i[1]+'G" id="'+k[1]+'.'+k[2]+'" name="'+k[1]+'.'+k[2]+'" '+'/'+'><br '+'/'+'>';
+    					default:text=text;
+    				}
+    			j=j+1;
+    			}
+    		}
+    		divi.innerHTML=text+'<input type="button" value="Submit" onclick="fun3()" '+'/'+'">';
+  		document.getElementById("D"+count).appendChild(divi);
+  		count=count+1;
+  	}
+  	document.getElementById("removal").onclick="";
+}
+function fun2()
+{
+	w.open("GET","/query/direct?q="+sel+document.getElementById('direct').value,true);
+	w.send(null);
+	w.onreadystatechange=function()
+  	{
+  		x=w.responseText;
+  		i=x.split("$&$")[1];
+  		if(i!=undefined)
+  			document.getElementById("dir").innerHTML=i;
+  		else
+  			document.getElementById("dir").innerHTML="Query Failed. Try Again";
+  	}
+}
+function fun3()
+{
+	var al=document.getElementsByClassName(i[1]+"G");
+	sql+=ar[i[1]];
+	for(var vr=0;vr<al.length;vr++)
+	{
+		if(al[vr].value!=""&&al[vr].value!=null&&al[vr].value!=undefined)
+		{
+			if(al[vr].id.split(".")[0]=="s")
+				where+='and '+al[vr].id.split(".")[1]+' like "$'+al[vr].value+'$" ';
+			else if(al[vr].id.split(".")[0]=="i")
+			{
+				where+='and '+al[vr].id.split(".")[1]+' between '+al[vr].value+' and '+al[vr+1].value+' ';
+				vr++;
+			}
+			else if(al[vr].id.split(".")[0]=="b")
+			{
+				if(al[vr].checked)where+='and '+al[vr].id.split(".")[1]+' = "'+al[vr].value+'"';
+				else if(al[vr+1].checked)where+='and '+al[vr+1].id.split(".")[1]+' = "'+al[vr+1].value+'"';
+				else where=where;
+				vr++;
+			}
+			else
+				where+='and '+al[vr].id.split(".")[1]+'='+al[vr].value+' ';
+		}
+	}
+	where+=";"
+	sql+=where;
+	w.open("GET","/query/direct?q="+sql,true);
+	w.send(null);
+	w.onreadystatechange=function()
+  	{
+  		x=w.responseText;
+  		var ij=x.split("$&$")[1];
+  		if(ij!=undefined)
+  			document.getElementById("dir").innerHTML=ij;
+  		else
+  			document.getElementById("dir").innerHTML="Query Failed. Try Again";
+  	}
+  	sql="select * from ";
+  	where=" where id>0 ";
+}
+</script>
+Choose A Table
+<select id='start'>
+<option value='gameList'>Game List</option>
+<option value='devList'>Developer</option>
+<option value='pubList'>Publisher</option>
+<option value='saleList'>Sales</option>
+</select>
+<input type="button" id="removal" onclick="fun1()" value="Submit"/>
+<div id="D0"></div>
+Or Give SQL Query Here: Select
+<input type="text" id="direct" /><input type="button" onclick="fun2()" value="Click" />
+<div id="dir"></div>
+
+
+</body>

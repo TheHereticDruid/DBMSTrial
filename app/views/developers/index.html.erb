@@ -1,0 +1,62 @@
+<body background="/images/login1.jpg">
+   <div style="margin:20px;">
+   <span style="margin:20px;">
+   <b><a href="/"> Home </a></b>
+   </span>
+   <span style="margin:20px;">
+   <b><a href="/game_lists"> Games </a></b> 
+  </span>
+  
+  <span style="margin:20px;">
+   <b><a href="/developers"> Developers </a></b>
+   </span>
+   
+   <span style="margin:20px;">
+  <b> <a href="/publishers"> Publishers </a></b>
+  </span>
+  
+   <span style="margin:20px;">
+   <b><a href="/query/queryMain"> Query  </a> </b>
+  </span>
+  
+  <span style="margin:20px;">
+   <b><%= link_to "Sign Out", destroy_user_session_path, :method=>:delete %></b>
+  </span>
+  
+  
+  </div>
+  
+  
+  <br>
+
+<h1>Listing developers</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Isindie</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @developers.each do |developer| %>
+      <tr>
+        <td><%= developer.name %></td>
+        <td><%= developer.isIndie %></td>
+        <td><%= link_to 'Show', developer %></td>
+        <% if current_user.email=="admin@archives.com" %><td><%= link_to 'Edit', edit_developer_path(developer) %></td>
+        <td><%= link_to 'Destroy', developer, method: :delete, data: { confirm: 'Are you sure?' } %></td><% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+<% if current_user.email=="admin@archives.com" %>
+<%= link_to 'New Developer', new_developer_path %>
+<% end %>
+</body>
